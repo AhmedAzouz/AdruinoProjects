@@ -1,4 +1,5 @@
-int delayT = 350;
+
+
 void positions()
 {
     Serial.print("Base : ");
@@ -13,7 +14,7 @@ void positions()
     Serial.print("Grip : ");
     Serial.println(valGripper);
 }
-}
+
 void Home() //Call this fucntion when u want to set arm in home position
   {
     MyServo0.write(valGripper);   // Gripper
@@ -26,7 +27,7 @@ void Home() //Call this fucntion when u want to set arm in home position
     delay(delayT);
   }
   
-  void Pick() // This is fixed pick place.
+void Pickup() // This is fixed pick place.
   {
    MyServo.write(4);   // base
    delay(delayT);
