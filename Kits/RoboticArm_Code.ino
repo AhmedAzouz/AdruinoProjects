@@ -3,7 +3,9 @@
 // San3aHub.com by AhmedFarag
 // ***********************************
 
-#include Servo MyServo,MyServo2,MyServo3,MyServo0;
+#include <Servo.h>
+
+Servo MyServo,MyServo2,MyServo3,MyServo0;
 char ByteReceived ;
 int MyPosition,MyPosition2,MyPosition3,MyPositionG;
 
@@ -13,6 +15,7 @@ int valGripper = 30;
 int valBase = 70;
 int valShoulder = 25;
 int valElbow = 150;
+int delayT = 350;
 
 void setup()
 {
@@ -34,13 +37,17 @@ void setup()
  
 void loop()
 {    
-    
-    ByteReceived = Serial.read();  switch (ByteReceived) {    // ************* LED
+    while (Serial.available()>0)  { 
       
-      break;    // ************* Base
+    ByteReceived = Serial.read();  
+    
+    switch (ByteReceived) {    
+      
+      // ************* Base
       case 'l':
       MyPosition = MyServo.read() + 2;    // L for move base left
-      MyServo.write(MyPosition);      Serial.print("Base");
+      MyServo.write(MyPosition);      
+      Serial.print("Base");
       Serial.print("\t");
       Serial.println(MyServo.read()); 
       delay(15);
@@ -61,14 +68,16 @@ void loop()
       // ************* Elbow
       case 'u':
       MyPosition2 = MyServo2.read() + 2;   // U for move Elbow up
-      MyServo2.write(MyPosition2);      Serial.print("Elbow");
+      MyServo2.write(MyPosition2);      
+      Serial.print("Elbow");
       Serial.print("\t");
       Serial.println(MyServo2.read()); 
       delay(15);
       
       break;      case 'd':
       MyPosition2 = MyServo2.read() - 2;   // D for move Elbow down
-      MyServo2.write(MyPosition2);      Serial.print("Elbow");
+      MyServo2.write(MyPosition2);      
+      Serial.print("Elbow");
       Serial.print("\t");
       Serial.println(MyServo2.read()); 
       delay(15);
@@ -76,14 +85,16 @@ void loop()
       break;      // ************* Shoulder
       case 'w':
       MyPosition3 = MyServo3.read() + 2;  // W for move Shoulder down
-      MyServo3.write(MyPosition3);      Serial.print("Shoulder");
+      MyServo3.write(MyPosition3);      
+      Serial.print("Shoulder");
       Serial.print("\t");
       Serial.println(MyServo3.read()); 
       delay(15);
       
       break;      case 's':
       MyPosition3 = MyServo3.read() - 2;  // S for move Shoulder up
-      MyServo3.write(MyPosition3);      Serial.print("Shoulder");
+      MyServo3.write(MyPosition3);      
+      Serial.print("Shoulder");
       Serial.print("\t");
       Serial.println(MyServo3.read()); 
       delay(15);
@@ -108,7 +119,7 @@ void loop()
       
        digitalWrite(ledPin,HIGH); 
        Serial.println("Default Dropped activated!");  
-       Pick();
+       Pickup();
        Drop();
        Home();
        digitalWrite(ledPin,LOW);
@@ -135,15 +146,9 @@ void loop()
        Serial.println("Robotic Arm Ready!");
        break; 
       
-      // ************* Automatic mood runs Playback function
-       // serial read Must be in this format: 1:90&2:80&3:180
-       // pickup place is fixed, this function will automate the drop position.
-      default:         digitalWrite(ledPin,HIGH); 
-         Serial.println("Automatic mood activated!");  
-         Pick();
-         Playback();
-         Home();
-         digitalWrite(ledPin,LOW);  
-      
-      break;
-  }}}
+      default:         
+         Serial.println("default"); 
+     break;
+  }
+    }
+}
